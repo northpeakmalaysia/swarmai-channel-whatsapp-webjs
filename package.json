@@ -1,0 +1,66 @@
+{
+  "name": "@swarmai/channel-whatsapp-webjs",
+  "version": "0.1.0",
+  "description": "SwarmAI channel plugin: WhatsApp Personal via whatsapp-web.js (puppeteer-driven WhatsApp Web). Heavier but media-reliable. Pair as a linked device.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "swarmai-package.yaml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings 0",
+    "test": "vitest run",
+    "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "@swarmai/memory": ">=0.5.0",
+    "@swarmai/plugin-sdk": ">=0.5.0",
+    "@swarmai/shared": ">=0.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@swarmai/plugin-sdk": {
+      "optional": false
+    },
+    "@swarmai/shared": {
+      "optional": false
+    },
+    "@swarmai/memory": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "puppeteer-core": "^23.10.0",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/qrcode-terminal": "^0.12.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.59.3",
+    "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/northpeakmalaysia/swarmai-channel-whatsapp-webjs"
+  },
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "//deps": "whatsapp-web.js + puppeteer-core are runtime deps. We use puppeteer-core (NOT puppeteer) to avoid bundling Chromium — the plugin reuses system Chrome detected at runtime via the same probe document.ts uses for PDF generation. This keeps the install size small and mirrors the user's existing Chrome.",
+  "//channel-kind": "Channel kind is 'whatsapp-webjs' (NEW). Pairs as a separate WhatsApp Linked Device — operators can run this AND channel-whatsapp-baileys simultaneously on the same WhatsApp account (Multi-Device supports up to 4 devices)."
+}

@@ -1,0 +1,56 @@
+# Runtime metadata read by the SwarmAI plugin loader.
+# Cross-validated against the @swarmai/channel-whatsapp-webjs manifest.yaml
+# under packages/official/channel-whatsapp-webjs/ in the SwarmAI Hub repo.
+#
+# This plugin is the heavier, media-reliable companion to
+# channel-whatsapp-baileys. Both share the WhatsApp account via
+# Multi-Device pairing; agent picks per send: text→baileys, media→webjs.
+
+id: '@swarmai/channel-whatsapp-webjs'
+version: '0.1.0'
+kind: 'channel'
+entry: './dist/index.js'
+
+channel:
+  # Distinct channel kind from Baileys so the bridge routes correctly
+  # when both plugins are installed and paired to the same account.
+  id: whatsapp-webjs
+  features:
+    dm: true
+    group: true
+    thread: false
+    reaction: true
+    edit: false
+    delete: false
+    mediaImage: true
+    mediaVideo: true
+    mediaAudio: true
+    voiceMemo: true
+    voiceCall: false
+    typing: true
+    readReceipt: true
+    formatting: markdown-limited
+    maxMessageBytes: 65536
+    maxAttachmentBytes: 104857600
+  pairing:
+    flow: qr-code
+    altFlow: pairing-code
+    docsUrl: 'https://docs.northpeak.app/channels/whatsapp-webjs'
+
+permissions:
+  network: bidirectional
+  # Persistent profile lives at <workspace>/.swarmai/webjs/profile/
+  # whatsapp-web.js requires a writable Chromium user-data-dir to keep
+  # the WhatsApp Web session across restarts (no re-pair).
+  filesystem: read-write-scratch
+  # System Chrome / Chromium / Edge detected at runtime (no bundled
+  # Chromium — reuses puppeteer-core's externally-supplied browser).
+  system: ['chromium']
+  secrets: []
+
+capabilities:
+  - 'network:fetch'
+  - 'network:websocket'
+  - 'fs:read'
+  - 'fs:write-scratch'
+  - 'system:spawn-chromium'

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.turbo/
+*.log
+.DS_Store
+Thumbs.db
+
+# Test outputs
+coverage/
+.vitest-cache/
+
+# Persistent Chromium profile (operator's actual WhatsApp session — never commit)
+.wwebjs_auth/
+.wwebjs_cache/
+profile/
+sessions/
