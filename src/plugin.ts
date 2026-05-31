@@ -16,7 +16,7 @@ import {
   WhatsAppWebJsAuthSchema,
   type WhatsAppWebJsConfig,
 } from './types.js';
-import { WebJsClient, type WebJsAdapter } from './webjs-client.js';
+import { WebJsClient, type WebJsAdapter, type WhatsAppCapabilities } from './webjs-client.js';
 import { normaliseWebJsMessage } from './inbound-normaliser.js';
 import { sendOutbound } from './outbound-sender.js';
 
@@ -88,6 +88,13 @@ export interface WhatsAppWebJsBundle {
   channel: ChannelPlugin;
   source: MonitorSource;
   getClient(): WebJsClient | null;
+  /**
+   * Full WhatsApp capability surface (groups/contacts/profile/reactions/
+   * location) for the `whatsapp.*` tool family. Returns `null` when the
+   * client hasn't started yet; tool layer re-checks connection per call.
+   * Structurally identical to the Baileys plugin's `capabilities()`.
+   */
+  capabilities(): WhatsAppCapabilities | null;
   handleWebhook(req: HttpRequest): Promise<{
     status: number;
     body: string;
@@ -356,6 +363,7 @@ export function createWhatsAppWebJsPlugin(
     source,
     handleWebhook,
     getClient: () => client,
+    capabilities: () => (client ? client.getCapabilities() : null),
     sendTyping: sendTypingHook,
     ...({} as { _lastEvent?: () => WhatsAppWebJsConnectionEvent | null }),
     _lastEvent: () => lastConnectionEvent,

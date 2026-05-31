@@ -1,6 +1,6 @@
 {
   "name": "@swarmai/channel-whatsapp-webjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "SwarmAI channel plugin: WhatsApp Personal via whatsapp-web.js (puppeteer-driven WhatsApp Web). Heavier but media-reliable. Pair as a linked device.",
   "type": "module",
   "main": "./dist/index.js",
